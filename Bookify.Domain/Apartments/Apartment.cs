@@ -27,4 +27,6 @@ public sealed class Apartment // sealed to avoid inheritance and optimize perfor
     public string CleaningFeeCurrency { get; private set; }
 
     public DateTime? LastBookedOnUtc { get; private set; }
+
+    public List<Amenity> Amenities { get; private set; } = new();
 }
