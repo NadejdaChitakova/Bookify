@@ -2,23 +2,26 @@
 
 namespace Bookify.Domain.Apartments;
 
-public sealed class Apartment(Guid id) : Entity(id) // sealed to avoid inheritance and optimize performence
+public sealed class Apartment(Guid id,
+    Name name,
+        Description description,
+    Address address,
+    Money price,
+    Money cleaningFee,
+    DateTime? lastBookenOnUtc,
+    List<Amenity> amenities) : Entity(id) // sealed to avoid inheritance and optimize performence
 {
-    public string Name { get; private set; }
+    public Name Name { get; private set; } = name;
 
-    public string Description { get; private set; }
+    public Description Description { get; private set; } = description;
 
-    public Address Address { get; private set; }
+    public Address Address { get; private set; } = address;
 
-    public decimal PrimeAmount { get; private set; }
+    public Money Price { get; private set; } = price;
 
-    public string PrimeCurrency { get; private set; }
-    
-    public decimal CleaningFeeAmount { get; private set; }
+    public Money CleaningFee { get; private set; } = cleaningFee;
 
-    public string CleaningFeeCurrency { get; private set; }
+    public DateTime? LastBookedOnUtc { get; private set; } = lastBookenOnUtc;
 
-    public DateTime? LastBookedOnUtc { get; private set; }
-
-    public List<Amenity> Amenities { get; private set; } = new();
+    public List<Amenity> Amenities { get; private set; } = amenities;
 }
