@@ -12,6 +12,7 @@ public sealed class Apartment(Guid id,
     DateTime? lastBookenOnUtc,
     List<Amenity> amenities) : Entity(id) // sealed to avoid inheritance and optimize performence
 {
+
     public Name Name { get; private set; } = name;
 
     public Description Description { get; private set; } = description;
@@ -22,7 +23,7 @@ public sealed class Apartment(Guid id,
 
     public Money CleaningFee { get; private set; } = cleaningFee;
 
-    public DateTime? LastBookedOnUtc { get; private set; } = lastBookenOnUtc;
+    public DateTime? LastBookedOnUtc { get; internal set; } = lastBookenOnUtc;
 
     public List<Amenity> Amenities { get; private set; } = amenities;
 }
