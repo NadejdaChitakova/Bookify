@@ -1,4 +1,5 @@
-﻿using Bookify.Domain.Abstractions;
+﻿using System.Net.Http.Headers;
+using Bookify.Domain.Abstractions;
 using Bookify.Domain.Apartments;
 using Bookify.Domain.Booking.Events;
 using Bookify.Domain.Shared;
@@ -83,5 +84,63 @@ booking.RaiseDomainEvent(new BookingReservedDomainEvent(booking.Id));
 apartment.LastBookedOnUtc = utcNow;
 
         return booking;
+    }
+
+    public Result Confirm(DateTime utcNow)
+    {
+        if (Status != BookingStatus.Reserved)
+        {
+            return Result.Failure(BookingErrors.NotPending);
+        }
+
+        Status = BookingStatus.Confirmed;
+        ConfirmedOnUtc = utcNow;
+
+        RaiseDomainEvent(new BookingConfirmedDomainEvent(id));
+
+        return Result.Success();
+    }
+
+    public Result Reject(DateTime utcNow)
+    {
+        if(Status != BookingStatus.Rejected) { return Result.Failure(BookingErrors.NotPending); }
+
+Status = BookingStatus.Rejected;
+RejectedOnUtc = utcNow;
+
+RaiseDomainEvent(new BookRejectedDomainEvent(id));
+
+return Result.Success();
+    }
+
+    public Result Complete(DateTime utcNow)
+    {
+        if (Status != BookingStatus.Completed) { return Result.Failure(BookingErrors.NotCompleted); }
+
+        Status = BookingStatus.Completed;
+        CompletedOnUtc = utcNow;
+
+        RaiseDomainEvent(new BookCompleteDomainEvent(id));
+
+        return Result.Success();
+    }
+
+    public Result Cancel(DateTime utcNow)
+    {
+        if (Status != BookingStatus.Cancelled) { return Result.Failure(BookingErrors.NotCancelled); }
+
+        var currentDate = DateOnly.FromDateTime(utcNow);
+
+        if (currentDate > Duration.Start)
+        {
+            return Result.Failure(BookingErrors.AlreadyStarted);
+        }
+
+        Status = BookingStatus.Cancelled;
+        CancelledOnUtc = utcNow;
+
+        RaiseDomainEvent(new BookCancelledDomainEvent(id));
+
+        return Result.Success();
     }
 }
