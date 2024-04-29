@@ -2,6 +2,8 @@
 using Bookify.Domain.Abstractions;
 using Bookify.Domain.Apartments;
 using Bookify.Domain.Booking.Events;
+using Bookify.Domain.Bookings;
+using Bookify.Domain.Bookings.Events;
 using Bookify.Domain.Shared;
 
 namespace Bookify.Domain.Booking;
@@ -90,44 +92,44 @@ apartment.LastBookedOnUtc = utcNow;
     {
         if (Status != BookingStatus.Reserved)
         {
-            return Result.Failure(BookingErrors.NotPending);
+            return Result.Failure(BookingErrors.NotReserved);
         }
 
         Status = BookingStatus.Confirmed;
         ConfirmedOnUtc = utcNow;
 
-        RaiseDomainEvent(new BookingConfirmedDomainEvent(id));
+        RaiseDomainEvent(new BookingConfirmedDomainEvent(Id));
 
         return Result.Success();
     }
 
     public Result Reject(DateTime utcNow)
     {
-        if(Status != BookingStatus.Rejected) { return Result.Failure(BookingErrors.NotPending); }
+        if(Status != BookingStatus.Reserved) { return Result.Failure(BookingErrors.NotReserved); }
 
 Status = BookingStatus.Rejected;
 RejectedOnUtc = utcNow;
 
-RaiseDomainEvent(new BookRejectedDomainEvent(id));
+RaiseDomainEvent(new BookRejectedDomainEvent(Id));
 
 return Result.Success();
     }
 
     public Result Complete(DateTime utcNow)
     {
-        if (Status != BookingStatus.Completed) { return Result.Failure(BookingErrors.NotCompleted); }
+        if (Status != BookingStatus.Completed) { return Result.Failure(BookingErrors.NotFound); }
 
         Status = BookingStatus.Completed;
         CompletedOnUtc = utcNow;
 
-        RaiseDomainEvent(new BookCompleteDomainEvent(id));
+        RaiseDomainEvent(new BookCompleteDomainEvent(Id));
 
         return Result.Success();
     }
 
     public Result Cancel(DateTime utcNow)
     {
-        if (Status != BookingStatus.Cancelled) { return Result.Failure(BookingErrors.NotCancelled); }
+        if (Status != BookingStatus.Cancelled) { return Result.Failure(BookingErrors.NotReserved); }
 
         var currentDate = DateOnly.FromDateTime(utcNow);
 
@@ -139,7 +141,7 @@ return Result.Success();
         Status = BookingStatus.Cancelled;
         CancelledOnUtc = utcNow;
 
-        RaiseDomainEvent(new BookCancelledDomainEvent(id));
+        RaiseDomainEvent(new BookCancelledDomainEvent(Id));
 
         return Result.Success();
     }

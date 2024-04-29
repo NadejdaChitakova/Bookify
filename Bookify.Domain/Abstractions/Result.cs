@@ -1,6 +1,4 @@
-﻿using System.Net.Http.Headers;
-
-namespace Bookify.Domain.Abstractions;
+﻿namespace Bookify.Domain.Abstractions;
 
 public class Result
 {
