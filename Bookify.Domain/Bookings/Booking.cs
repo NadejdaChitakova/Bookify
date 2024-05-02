@@ -1,5 +1,4 @@
-﻿using System.Net.Http.Headers;
-using Bookify.Domain.Abstractions;
+﻿using Bookify.Domain.Abstractions;
 using Bookify.Domain.Apartments;
 using Bookify.Domain.Booking.Events;
 using Bookify.Domain.Bookings;
