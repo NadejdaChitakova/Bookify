@@ -1,12 +1,14 @@
-﻿using Bookify.Application.Abstractions.Clock;
+﻿using Bookify.Application.Abstractions;
+using Bookify.Application.Abstractions.Clock;
 using Bookify.Application.Abstractions.Messaging;
+using Bookify.Application.Booking.ReserveBooking;
 using Bookify.Domain.Abstractions;
 using Bookify.Domain.Apartments;
-using Bookify.Domain.Booking;
 using Bookify.Domain.Bookings;
 using Bookify.Domain.User;
+using Bookify.Domain.Users;
 
-namespace Bookify.Application.Booking.ReserveBooking
+namespace Bookify.Application.Bookings.ReserveBooking
 {
     internal sealed class ReserveBookingCommandHandler : ICommandHandler<ReserveBookingCommand, Guid>
     {
@@ -34,14 +36,14 @@ namespace Bookify.Application.Booking.ReserveBooking
 
         public async Task<Result<Guid>> Handle(ReserveBookingCommand request, CancellationToken cancellationToken)
         {
-            var user = await _userRepository.GetByIdAsync(request.userId, cancellationToken);
+            var user = await _userRepository.GetByIdAsync(request.UserId, cancellationToken);
 
             if (user is null)
             {
                 return Result.Failure<Guid>(UserErrors.NotFound);
             }
 
-            var apartment = await _apartmentRepository.GetByIdAsync(request.aparmentId, cancellationToken);
+            var apartment = await _apartmentRepository.GetByIdAsync(request.AparmentId, cancellationToken);
 
             if (apartment is null)
             {
@@ -55,12 +57,12 @@ namespace Bookify.Application.Booking.ReserveBooking
                 return Result.Failure<Guid>(BookingErrors.Overlaped);
             }
 
-            var booking = Domain.Booking.Booking.Reserve(
-                                                         apartment, 
-                                                         user.Id,
-                                                         duration,
-                                                         _dateTimeProvider.UtcNow, 
-                                                         _pricingService);
+            var booking =  Domain.Bookings.Booking.Reserve(
+                                                                        apartment, 
+                                                                        user.Id,
+                                                                        duration,
+                                                                        _dateTimeProvider.UtcNow, 
+                                                                        _pricingService);
 
             _bookingRepository.Add(booking);
 

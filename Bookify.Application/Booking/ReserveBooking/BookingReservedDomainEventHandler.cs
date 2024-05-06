@@ -1,7 +1,7 @@
 ﻿using Bookify.Application.Abstractions.Messaging;
-using Bookify.Domain.Booking.Events;
 using Bookify.Domain.Bookings;
-using Bookify.Domain.User;
+using Bookify.Domain.Bookings.Events;
+using Bookify.Domain.Users;
 using MediatR;
 
 namespace Bookify.Application.Booking.ReserveBooking
@@ -37,9 +37,11 @@ namespace Bookify.Application.Booking.ReserveBooking
                 return;
             }
 
-            await _emailService.SendAsync(user.Email,
+            await _emailService.SendAsync(
+                                          user.Email,
                                           "Booking reserved!",
                                           "You have 10 minutes to confirm this booking");
+
         }
     }
 }
