@@ -1,12 +1,9 @@
-﻿using System.Net.Http.Headers;
-using Bookify.Domain.Abstractions;
+﻿using Bookify.Domain.Abstractions;
 using Bookify.Domain.Apartments;
-using Bookify.Domain.Booking.Events;
-using Bookify.Domain.Bookings;
 using Bookify.Domain.Bookings.Events;
 using Bookify.Domain.Shared;
 
-namespace Bookify.Domain.Booking;
+namespace Bookify.Domain.Bookings;
 
 public sealed class Booking : Entity
 {
