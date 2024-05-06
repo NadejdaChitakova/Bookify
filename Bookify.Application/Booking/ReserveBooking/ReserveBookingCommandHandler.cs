@@ -5,7 +5,6 @@ using Bookify.Application.Booking.ReserveBooking;
 using Bookify.Domain.Abstractions;
 using Bookify.Domain.Apartments;
 using Bookify.Domain.Bookings;
-using Bookify.Domain.User;
 using Bookify.Domain.Users;
 
 namespace Bookify.Application.Bookings.ReserveBooking
