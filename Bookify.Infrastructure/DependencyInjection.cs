@@ -1,10 +1,12 @@
 ﻿using Bookify.Application.Abstractions.Clock;
+using Bookify.Application.Abstractions.Data;
 using Bookify.Application.Abstractions.Messaging;
 using Bookify.Domain.Abstractions;
 using Bookify.Domain.Apartments;
 using Bookify.Domain.Bookings;
 using Bookify.Domain.Users;
 using Bookify.Infrastructure.Clock;
+using Bookify.Infrastructure.Data;
 using Bookify.Infrastructure.Email;
 using Bookify.Infrastructure.Repositories;
 using Microsoft.EntityFrameworkCore;
@@ -34,6 +36,9 @@ namespace Bookify.Infrastructure
             services.AddScoped<IApartmentRepository, ApartmentRepository>();
 
             services.AddScoped<IUnitOfWork>(sp => sp.GetRequiredService<ApplicationDbContext>());
+
+            services.AddSingleton<ISqlConnectionFactory>(_ =>
+                                                             new SqlConnectionFactory(connectionString));
 
             return services;
         }
