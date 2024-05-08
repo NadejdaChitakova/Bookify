@@ -11,7 +11,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Bookify.Domain", "Bookify.D
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Bookify.Application", "Bookify.Application\Bookify.Application.csproj", "{9E124CC5-B245-426E-9663-A487EA969FA9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bookify.Infrastructure", "Bookify.Infrastructure\Bookify.Infrastructure.csproj", "{A50E5337-0CEC-48E0-A176-473628BD4D08}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Bookify.Infrastructure", "Bookify.Infrastructure\Bookify.Infrastructure.csproj", "{A50E5337-0CEC-48E0-A176-473628BD4D08}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -38,6 +38,7 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{C99C0B70-30E8-452B-810B-E778A8C57ED6} = {95095DA3-7A03-45C0-913D-5D82683F4E06}
 		{9E124CC5-B245-426E-9663-A487EA969FA9} = {95095DA3-7A03-45C0-913D-5D82683F4E06}
+		{A50E5337-0CEC-48E0-A176-473628BD4D08} = {95095DA3-7A03-45C0-913D-5D82683F4E06}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {C85DB9AD-D28D-4389-B118-E8BC5C5C26C4}
