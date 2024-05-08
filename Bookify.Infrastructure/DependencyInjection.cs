@@ -2,6 +2,7 @@
 using Bookify.Application.Abstractions.Messaging;
 using Bookify.Infrastructure.Clock;
 using Bookify.Infrastructure.Email;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -17,6 +18,11 @@ namespace Bookify.Infrastructure
 
             var connectionString = configuration.GetConnectionString("Database") ??
                                    throw new ArgumentNullException(nameof(configuration));
+
+            services.AddDbContext<ApplicationDbContext>(options =>
+            {
+                options.UseNpgsql(connectionString).UseSnakeCaseNamingConvention();
+            });
 
             return services;
         }
