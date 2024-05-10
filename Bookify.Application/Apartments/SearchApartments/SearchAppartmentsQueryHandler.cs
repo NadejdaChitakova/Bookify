@@ -1,7 +1,7 @@
 ﻿using Bookify.Application.Abstractions.Data;
 using Bookify.Application.Abstractions.Messaging;
 using Bookify.Domain.Abstractions;
-using Bookify.Domain.Booking;
+using Bookify.Domain.Bookings;
 using Dapper;
 
 namespace Bookify.Application.Apartments.SearchAppartments
