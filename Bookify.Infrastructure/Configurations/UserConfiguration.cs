@@ -14,17 +14,18 @@ namespace Bookify.Infrastructure.Configurations
 
             builder.Property(user => user.FirstName)
                 .HasMaxLength(200)
-                .HasConversion(firstname => firstname.Value, value => new FirstName(value));
+                .HasConversion(firstName => firstName.Value, value => new FirstName(value));
 
             builder.Property(user => user.LastName)
                 .HasMaxLength(200)
-                .HasConversion(lastName => lastName.Value, value => new LastName(value));
+                .HasConversion(firstName => firstName.Value, value => new LastName(value));
 
             builder.Property(user => user.Email)
-                .HasMaxLength(200)
-                .HasConversion(email => email.Value, value => new Domain.Users.Email(value));
+                .HasMaxLength(400)
+                .HasConversion(email => email.Value, value => new Domain.Users.Email(value)); ;
 
             builder.HasIndex(user => user.Email).IsUnique();
+
         }
     }
 }

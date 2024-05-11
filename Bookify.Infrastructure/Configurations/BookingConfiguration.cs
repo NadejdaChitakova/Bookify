@@ -12,17 +12,7 @@ namespace Bookify.Infrastructure.Configurations
         {
             builder.ToTable("bookings");
 
-            builder.HasKey(x => x.Id);
-
-            builder.HasOne<Apartment>()
-                .WithMany()
-                .HasForeignKey(booking => booking.ApartmentId);
-
-            builder.HasOne<User>()
-                .WithMany()
-                .HasForeignKey(booking => booking.UserId);
-
-            builder.OwnsOne(booking => booking.Duration);
+            builder.HasKey(booking => booking.Id);
 
             builder.OwnsOne(booking => booking.PriceForPeriod, priceBuilder =>
             {
@@ -38,7 +28,7 @@ namespace Bookify.Infrastructure.Configurations
 
             builder.OwnsOne(booking => booking.AmenitiesUpCharge, priceBuilder =>
             {
-                priceBuilder.Property(x => x.Currency)
+                priceBuilder.Property(money => money.Currency)
                     .HasConversion(currency => currency.Code, code => Currency.FromCode(code));
             });
 
@@ -47,6 +37,17 @@ namespace Bookify.Infrastructure.Configurations
                 priceBuilder.Property(money => money.Currency)
                     .HasConversion(currency => currency.Code, code => Currency.FromCode(code));
             });
+
+            builder.OwnsOne(booking => booking.Duration);
+
+            builder.HasOne<Apartment>()
+                .WithMany()
+                .HasForeignKey(booking => booking.ApartmentId);
+
+            builder.HasOne<User>()
+                .WithMany()
+                .HasForeignKey(booking => booking.UserId);
+
         }
     }
 }

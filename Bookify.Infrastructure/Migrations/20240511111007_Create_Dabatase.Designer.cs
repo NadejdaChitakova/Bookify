@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Bookify.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240510135742_Create_Dabatase")]
+    [Migration("20240511111007_Create_Dabatase")]
     partial class Create_Dabatase
     {
         /// <inheritdoc />
@@ -46,6 +46,12 @@ namespace Bookify.Infrastructure.Migrations
                     b.Property<DateTime?>("LastBookedOnUtc")
                         .HasColumnType("timestamp with time zone")
                         .HasColumnName("last_booked_on_utc");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("character varying(200)")
+                        .HasColumnName("name");
 
                     b.Property<uint>("Version")
                         .IsConcurrencyToken()
@@ -127,8 +133,8 @@ namespace Bookify.Infrastructure.Migrations
 
                     b.Property<string>("Comment")
                         .IsRequired()
-                        .HasMaxLength(2000)
-                        .HasColumnType("character varying(2000)")
+                        .HasMaxLength(200)
+                        .HasColumnType("character varying(200)")
                         .HasColumnName("comment");
 
                     b.Property<DateTime>("CreatedOnUtc")
@@ -167,8 +173,8 @@ namespace Bookify.Infrastructure.Migrations
 
                     b.Property<string>("Email")
                         .IsRequired()
-                        .HasMaxLength(200)
-                        .HasColumnType("character varying(200)")
+                        .HasMaxLength(400)
+                        .HasColumnType("character varying(400)")
                         .HasColumnName("email");
 
                     b.Property<string>("FirstName")
@@ -283,33 +289,10 @@ namespace Bookify.Infrastructure.Migrations
                                 .HasConstraintName("fk_apartments_apartments_id");
                         });
 
-                    b.OwnsOne("Bookify.Domain.Apartments.Name", "Name", b1 =>
-                        {
-                            b1.Property<Guid>("ApartmentId")
-                                .HasColumnType("uuid")
-                                .HasColumnName("id");
-
-                            b1.Property<string>("Value")
-                                .IsRequired()
-                                .HasColumnType("text")
-                                .HasColumnName("name_value");
-
-                            b1.HasKey("ApartmentId");
-
-                            b1.ToTable("apartments");
-
-                            b1.WithOwner()
-                                .HasForeignKey("ApartmentId")
-                                .HasConstraintName("fk_apartments_apartments_id");
-                        });
-
                     b.Navigation("Address")
                         .IsRequired();
 
                     b.Navigation("CleaningFee")
-                        .IsRequired();
-
-                    b.Navigation("Name")
                         .IsRequired();
 
                     b.Navigation("Price")

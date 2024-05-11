@@ -16,7 +16,7 @@ namespace Bookify.Infrastructure.Migrations
                 columns: table => new
                 {
                     id = table.Column<Guid>(type: "uuid", nullable: false),
-                    name_value = table.Column<string>(type: "text", nullable: false),
+                    name = table.Column<string>(type: "character varying(200)", maxLength: 200, nullable: false),
                     description = table.Column<string>(type: "character varying(2000)", maxLength: 2000, nullable: false),
                     address_country = table.Column<string>(type: "text", nullable: false),
                     address_state = table.Column<string>(type: "text", nullable: false),
@@ -43,7 +43,7 @@ namespace Bookify.Infrastructure.Migrations
                     id = table.Column<Guid>(type: "uuid", nullable: false),
                     first_name = table.Column<string>(type: "character varying(200)", maxLength: 200, nullable: false),
                     last_name = table.Column<string>(type: "character varying(200)", maxLength: 200, nullable: false),
-                    email = table.Column<string>(type: "character varying(200)", maxLength: 200, nullable: false)
+                    email = table.Column<string>(type: "character varying(400)", maxLength: 400, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -100,7 +100,7 @@ namespace Bookify.Infrastructure.Migrations
                     booking_id = table.Column<Guid>(type: "uuid", nullable: false),
                     user_id = table.Column<Guid>(type: "uuid", nullable: false),
                     rating = table.Column<int>(type: "integer", nullable: false),
-                    comment = table.Column<string>(type: "character varying(2000)", maxLength: 2000, nullable: false),
+                    comment = table.Column<string>(type: "character varying(200)", maxLength: 200, nullable: false),
                     created_on_utc = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
                 },
                 constraints: table =>

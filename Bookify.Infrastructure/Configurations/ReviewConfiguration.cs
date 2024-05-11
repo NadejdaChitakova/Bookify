@@ -16,11 +16,11 @@ namespace Bookify.Infrastructure.Configurations
             builder.HasKey(review => review.Id);
 
             builder.Property(review => review.Rating)
-                            .HasConversion(rating => rating.Value, value => Rating.Create(value).Value);
+                .HasConversion(rating => rating.Value, value => Rating.Create(value).Value);
 
             builder.Property(review => review.Comment)
-                .HasMaxLength(2000)
-.HasConversion(comment => comment.Value, value => new Comment(value));
+                .HasMaxLength(200)
+                .HasConversion(comment => comment.Value, value => new Comment(value));
 
             builder.HasOne<Apartment>()
                 .WithMany()
@@ -33,6 +33,7 @@ namespace Bookify.Infrastructure.Configurations
             builder.HasOne<User>()
                 .WithMany()
                 .HasForeignKey(review => review.UserId);
+
         }
     }
 }

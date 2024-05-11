@@ -13,6 +13,7 @@ services:
   bookify-db:
     image: postgres:latest
     container_name: Bookify.Db
+    restart: always
     environment:
       - POSTGRES_DB=bookify
       - POSTGRES_USER=postgres
