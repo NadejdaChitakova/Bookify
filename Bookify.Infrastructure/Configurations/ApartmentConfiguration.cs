@@ -12,6 +12,8 @@ namespace Bookify.Infrastructure.Configurations
 
             builder.HasKey(apartment => apartment.Id);
 
+            builder.OwnsOne(apartment => apartment.Name);
+
             builder.OwnsOne(apartment => apartment.Address);
 
             builder.Property(apartment => apartment.Description)

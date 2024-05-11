@@ -7,10 +7,13 @@ public sealed class User : Entity
 {
     private User(Guid id, FirstName firstName, LastName lastName, Email email) : base(id)
     {
-        this.FirstName = firstName;
-        this.LastName = lastName;
-        this.Email = email;
+        FirstName = firstName;
+        LastName = lastName;
+        Email = email;
     }
+
+    private User() { }
+
 public FirstName FirstName { get; private set; }
 
 public LastName LastName { get; private set; }

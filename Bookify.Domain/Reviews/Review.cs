@@ -24,6 +24,8 @@ namespace Bookify.Domain.Reviews
             CreatedOnUtc = createdOnUtc;
         }
 
+        private Review() { }
+
         public Guid ApartmentId { get; private set; }
 
         public Guid BookingId { get; private set; }
