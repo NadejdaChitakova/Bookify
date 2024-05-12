@@ -29,4 +29,8 @@ app.UseCustomMiddleware();
 
 app.MapControllers();
 
+app.UseAuthorization();
+
+app.UseAuthentication();
+
 app.Run();
