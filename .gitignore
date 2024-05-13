@@ -363,3 +363,6 @@ MigrationBackup/
 FodyWeavers.xsd
 /.containers/database
 /.containers/identity/h2/keycloakdb.trace.db
+/.containers/identity/h2/keycloakdb.lock.db
+/.containers/identity/h2/keycloakdb.lock.db
+/.containers/identity/h2/keycloakdb.lock.db
