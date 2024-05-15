@@ -1,4 +1,5 @@
-﻿using Bookify.Application.User.LoginUser;
+﻿using Bookify.Application.User.GetLogInUser;
+using Bookify.Application.User.LoginUser;
 using Bookify.Application.User.RegisterUser;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
@@ -30,6 +31,15 @@ namespace Bookify.Api.Controllers.User
                                                   request.Password);
 
             var result = await _sender.Send(command, cancellationToken);
+
+            return Ok(result.Value);
+        }
+
+        public async Task<IActionResult> GetLoggedInUser(CancellationToken cancellationToken)
+        {
+            var query = new GetLoggedInUserQuery();
+
+            var result = await _sender.Send(query, cancellationToken);
 
             return Ok(result.Value);
         }

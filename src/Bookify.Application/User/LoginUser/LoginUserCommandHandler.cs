@@ -1,4 +1,5 @@
-﻿using Bookify.Application.Abstractions.Messaging;
+﻿using Bookify.Application.Abstractions.Authentication;
+using Bookify.Application.Abstractions.Messaging;
 using Bookify.Domain.Abstractions;
 
 namespace Bookify.Application.User.LoginUser
