@@ -35,6 +35,8 @@ namespace Bookify.Api.Controllers.User
             return Ok(result.Value);
         }
 
+        [HttpGet]
+        [Authorize(Roles = Roles.Registered)]
         public async Task<IActionResult> GetLoggedInUser(CancellationToken cancellationToken)
         {
             var query = new GetLoggedInUserQuery();
@@ -44,6 +46,7 @@ namespace Bookify.Api.Controllers.User
             return Ok(result.Value);
         }
 
+        [HttpGet]
         public async Task<IActionResult> LogIn(
             LogInUserRequest request,
         CancellationToken cancellationToken)
