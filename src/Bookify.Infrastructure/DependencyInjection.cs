@@ -85,12 +85,12 @@ namespace Bookify.Infrastructure
                 })
                 .AddHttpMessageHandler<AdminAuthroizationDelegatingHandler>();
 
-            //services.AddHttpClient<IJwtService, JwtService>((serviceProvider, httpClient) =>
-            //{
-            //    var keycloakOptions = serviceProvider.GetRequiredService<IOptions<KeycloakOptions>>().Value;
+            services.AddHttpClient<IJwtService, JwtService>((serviceProvider, httpClient) =>
+            {
+                var keycloakOptions = serviceProvider.GetRequiredService<IOptions<KeycloakOptions>>().Value;
 
-            //    httpClient.BaseAddress = new Uri(keycloakOptions.TokenUrl);
-            //});
+                httpClient.BaseAddress = new Uri(keycloakOptions.TokenUrl);
+            });
         }
     }
 }
