@@ -2,7 +2,7 @@
 {
     public sealed class Role
     {
-        public static readonly Role Register = new Role(1, "Registered");
+        public static readonly Role Registered = new Role(1, "Registered");
 
         public Role(int id, string name)
         {
@@ -15,6 +15,7 @@
         public string Name { get; init; } = string.Empty;
 
         public ICollection<User> Users { get; init; } = new List<User>();
+
         public ICollection<Permission> Permissions { get; init; } = new List<Permission>();
 
     }

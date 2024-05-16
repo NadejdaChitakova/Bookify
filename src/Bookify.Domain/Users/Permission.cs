@@ -4,9 +4,10 @@
         int id, 
         string name)
     {
-        public static readonly Permission UserRead = new Permission(1, "user:read");
+        public static readonly Permission UsersRead = new(1, "user:read");
 
         public int Id { get; init; }
+
         public string Name { get; init; }
     }
 }

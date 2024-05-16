@@ -17,7 +17,7 @@ namespace Bookify.Infrastructure.Configurations
             builder.HasMany(x => x.Users)
                 .WithMany(x => x.Roles);
 
-            builder.HasData(Role.Register);
+            builder.HasData(Role.Registered);
         }
     }
 }
