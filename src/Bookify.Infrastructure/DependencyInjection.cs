@@ -8,6 +8,7 @@ using Bookify.Domain.Bookings;
 using Bookify.Domain.Reviews;
 using Bookify.Domain.Users;
 using Bookify.Infrastructure.Authentication;
+using Bookify.Infrastructure.Authorization;
 using Bookify.Infrastructure.Clock;
 using Bookify.Infrastructure.Data;
 using Bookify.Infrastructure.Email;
@@ -39,7 +40,7 @@ namespace Bookify.Infrastructure
 
             AddAuthentication(services, configuration);
 
-            //AddAuthorization(services);
+            AddAuthorization(services);
 
             return services;
         }
@@ -105,16 +106,16 @@ namespace Bookify.Infrastructure
             services.AddScoped<IUserContext, UserContext>();
         }
 
-        //private static void AddAuthorization(IServiceCollection services)
-        //{
-        //    services.AddScoped<Authroiza>();
+        private static void AddAuthorization(IServiceCollection services)
+        {
+            services.AddScoped<AuthorizationService>();
 
-        //    services.AddTransient<IClaimsTransformation, CustomClaimsTransformation>();
+            services.AddTransient<IClaimsTransformation, CustomClaimsTransformation>();
 
-        //    services.AddTransient<IAuthorizationHandler, PermissionAuthorizationHandler>();
+            //services.AddTransient<IAuthorizationHandler, PermissionAuthorizationHandler>();
 
-        //    services.AddTransient<IAuthorizationPolicyProvider, PermissionAuthorizationPolicyProvider>();
-        //}
+            //services.AddTransient<IAuthorizationPolicyProvider, PermissionAuthorizationPolicyProvider>();
+        }
 
     }
 }

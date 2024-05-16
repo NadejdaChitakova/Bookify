@@ -11,7 +11,7 @@ namespace Bookify.Infrastructure.Migrations
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
-        {
+        {   
             migrationBuilder.CreateTable(
                 name: "roles",
                 columns: table => new

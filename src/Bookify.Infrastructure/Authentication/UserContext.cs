@@ -11,7 +11,7 @@ namespace Bookify.Infrastructure.Authentication
         public string IdentityId =>
             _httpContextAccessor
                 .HttpContext?
-                .User.FindFirst(ClaimTypes.NameIdentifier).Value ??
+                .User.GetIdentityId() ??
             throw new ApplicationException("User context is unavailable");
     }
 }
