@@ -1,12 +1,19 @@
-import { TestBed } from '@angular/core/testing';
-import { Component } from '@angular/core';
+import { CardModule } from 'primeng/card';
+import { ButtonModule } from 'primeng/button';
+import { Component, Input, OnInit } from '@angular/core';
+import { Apartment } from '../types/apartment';
 
 @Component({
   selector: 'apartment',
   standalone: true,
-  imports: [],
+  imports: [CardModule, ButtonModule],
   templateUrl: './apartment.component.html',
   styleUrl: './apartment.component.css'
 })
-export class ApartmentComponent {
+export class ApartmentComponent implements OnInit {
+  @Input() apartment!: Apartment;
+
+  ngOnInit(): void {
+
+  }
 }

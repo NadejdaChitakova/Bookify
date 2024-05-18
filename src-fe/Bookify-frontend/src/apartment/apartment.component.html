@@ -1,4 +1,13 @@
-<p>source</p>
-<h3>Apartment name</h3>
-<p>description</p>
-<p>cost per night</p>
+<p-card header="{{apartment.name}}" subheader="{{apartment.address}}" [style]="{ width: '360px' }">
+  <ng-template pTemplate="header">
+      <img alt="Card" src="https://primefaces.org/cdn/primeng/images/card-ng.jpg" />
+  </ng-template>
+  <p>
+      {{apartment.description}}
+  </p>
+  <ng-template pTemplate="footer">
+      <div class="flex gap-3 mt-1">
+          <p-button label="View" class="w-full" styleClass="w-full" />
+      </div>
+  </ng-template>
+</p-card>
