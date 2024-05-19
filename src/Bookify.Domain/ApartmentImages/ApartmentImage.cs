@@ -8,11 +8,13 @@ namespace Bookify.Domain.AttachedFiles
         private ApartmentImage(
             Guid id,
             Guid apartmentId,
+            MainPhoto mainPhoto,
             Extension extension,
             FileContent fileContent) : base(id) 
         {
             Id = id;
             ApartmentId = apartmentId;
+            MainPhoto = mainPhoto;
             Extension = extension;
             FileContent = fileContent;
         }
@@ -20,18 +22,22 @@ namespace Bookify.Domain.AttachedFiles
 
         public Guid ApartmentId { get; init; }
 
-        public Extension Extension { get; set; }
+public MainPhoto MainPhoto { get; init; }
 
-        public FileContent FileContent { get; set; }
+        public Extension Extension { get; init; }
+
+        public FileContent FileContent { get; init; }
 
         public static Result<ApartmentImage> Upload(
             Guid apartmentId,
+            MainPhoto mainPhoto,
             Extension extension,
             FileContent fileContent)
         {
             var apartmentImage = new ApartmentImage(
                                                     Guid.NewGuid(),
                                                     apartmentId, 
+                                                    mainPhoto,
                                                         extension,
                                                     fileContent);
 

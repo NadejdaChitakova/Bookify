@@ -21,6 +21,9 @@ namespace Bookify.Infrastructure.Configurations
                 .HasMaxLength(2000)
                 .HasConversion(name => name.Value, value => new Extension(value));
 
+            builder.Property(apartment => apartment.MainPhoto)
+                .HasConversion(name => name.Value, value => new MainPhoto(value));
+
             builder.HasOne<Apartment>()
                 .WithMany()
                 .HasForeignKey(review => review.ApartmentId);
