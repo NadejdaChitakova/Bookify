@@ -10,17 +10,10 @@ namespace Bookify.Api.Controllers.User
 {
     [ApiController]
     [Route("api/user")]
-    public class UserController : ControllerBase
+    public class UserController(ISender sender) : ControllerBase
     {
-        private readonly ISender _sender;
-
-        public UserController(ISender sender)
-        {
-            _sender = sender;
-        }
-
         [AllowAnonymous]
-        [HttpPost("register")]
+        [HttpPost(nameof(Request))]
         public async Task<IActionResult> Register(
             RegisterUserRequest request,
             CancellationToken cancellationToken)
@@ -31,30 +24,30 @@ namespace Bookify.Api.Controllers.User
                                                   request.LastName,
                                                   request.Password);
 
-            var result = await _sender.Send(command, cancellationToken);
+            var result = await sender.Send(command, cancellationToken);
 
             return Ok(result.Value);
         }
 
-        [HttpGet]
+        [HttpGet(nameof(GetLoggedInUser))]
         [HasPermission(Permission.UsersRead)]
         public async Task<IActionResult> GetLoggedInUser(CancellationToken cancellationToken)
         {
             var query = new GetLoggedInUserQuery();
 
-            var result = await _sender.Send(query, cancellationToken);
+            var result = await sender.Send(query, cancellationToken);
 
             return Ok(result.Value);
         }
 
-        [HttpGet]
+        [HttpGet(nameof(LogIn))]
         public async Task<IActionResult> LogIn(
             LogInUserRequest request,
         CancellationToken cancellationToken)
         {
             var command = new LoginUserCommand(request.Email, request.Password);
 
-            var result = await _sender.Send(command, cancellationToken);
+            var result = await sender.Send(command, cancellationToken);
 
             if (result.IsFailure)
             {

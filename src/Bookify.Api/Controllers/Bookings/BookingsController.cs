@@ -13,7 +13,7 @@ namespace Bookify.Api.Controllers.Bookings
     {
         private readonly ISender _sender = sender;
 
-        [HttpGet]
+        [HttpGet(nameof(GetBooking))]
         public async Task<IActionResult> GetBooking(Guid id, CancellationToken cancellationToken)
         {
             var query = new GetBookingQuery(id);
@@ -23,7 +23,7 @@ namespace Bookify.Api.Controllers.Bookings
             return result.IsSuccess ? Ok(result.Value) : NotFound();
         }
 
-        [HttpPost]
+        [HttpPost(nameof(ReserveBooking))]
         public async Task<IActionResult> ReserveBooking(
             ReserveBookingRequest request, 
             CancellationToken cancellationToken)

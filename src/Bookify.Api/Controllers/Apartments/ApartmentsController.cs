@@ -1,4 +1,5 @@
-﻿using Bookify.Application.Apartments.SearchAppartments;
+﻿using Bookify.Application.Apartments.GetApartments;
+using Bookify.Application.Apartments.Searchapartments;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -12,7 +13,18 @@ namespace Bookify.Api.Controllers.Apartments
     {
         private readonly ISender _sender = sender;
 
-        [HttpGet]
+        [HttpGet(nameof(GetApartments))]
+        public async Task<IActionResult> GetApartments(
+            CancellationToken cancellationToken)
+        {
+            var query = new GetApartmentsQuery();
+
+            var result = await _sender.Send(query, cancellationToken);
+
+            return Ok(result);
+        }
+
+        [HttpGet(nameof(SearchApartment))]
         public async Task<IActionResult> SearchApartment(
             DateOnly startDate,
             DateOnly endDate,

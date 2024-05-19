@@ -10,7 +10,7 @@ namespace Bookify.Api.Controllers.Reviews
     [Route("api/reviews")]
     public class ReviewController(ISender sender) : ControllerBase
     {
-        [HttpPost]
+        [HttpPost(nameof(AddReview))]
         public async Task<IActionResult> AddReview(AddReviewRequest request, CancellationToken cancellationToken)
         {
             var command = new AddReviewCommand(request.BookingId, request.Rating, request.Comment);
