@@ -19,5 +19,17 @@ Roles = user.Roles.ToList(),
 
             return roles;
         }
+
+        public async Task<HashSet<string>> GetPermissionsForUser(string identityId)
+        {
+            var permission = await dbContext.Set<User>()
+                .Where(user => user.IdentityId == identityId)
+                .SelectMany(user => user.Roles.Select(role => role.Permissions))
+                .FirstAsync();
+
+            var permissionsSet = permission.Select(x => x.Name).ToHashSet();
+
+            return permissionsSet;
+        }
     }
 }

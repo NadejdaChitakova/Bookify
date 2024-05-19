@@ -32,7 +32,7 @@ public static User Create(FirstName firstName, LastName lastName, Email email)
 
 user.RaiseDomainEvent(new UserCreatedDomainEvent(user.Id));
 
-        user._roles.Add(Role.Register);
+        user._roles.Add(Role.Registered);
 
     return user;
 }
