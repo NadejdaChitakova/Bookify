@@ -1,7 +1,9 @@
 ﻿using Bogus;
 using Bookify.Application.Abstractions.Data;
 using Bookify.Domain.Apartments;
+using Bookify.Domain.AttachedFiles;
 using Dapper;
+using Npgsql;
 
 namespace Bookify.Api.Extensions
 {
@@ -17,11 +19,12 @@ namespace Bookify.Api.Extensions
 
             var faker = new Faker();
 
-            List<object> apartments = new();
-
+            List<object> apartments = [];
+            List<object> apartmentPhotos = [];
+                
             for (var i = 0; i < 100; i++)
             {
-                apartments.Add(new
+                var apartment = new
                 {
                     Id = Guid.NewGuid(),
                     Name = faker.Company.CompanyName(),
@@ -37,6 +40,24 @@ namespace Bookify.Api.Extensions
                     CleaningFeeCurrency = "USD",
                     Amenities = new List<int> { (int)Amenity.Parking, (int)Amenity.MountainView },
                     LastBookedOn = DateTime.MinValue
+                };
+
+                apartments.Add(apartment);
+
+                apartmentPhotos.Add(new
+                {
+ImageId = Guid.NewGuid(),
+ApartmentId = apartment.Id,
+MainPhoto = true,
+FileContent = faker.Image.PlaceImgUrl()
+                });
+                
+                apartmentPhotos.Add(new
+                {
+ImageId = Guid.NewGuid(),
+ApartmentId = apartment.Id,
+MainPhoto = false,
+FileContent = faker.Image.PlaceImgUrl()
                 });
             }
 
@@ -46,7 +67,14 @@ namespace Bookify.Api.Extensions
                                VALUES(@Id, @Name, @Description, @Country, @State, @ZipCode, @City, @Street, @PriceAmount, @PriceCurrency, @CleaningFeeAmount, @CleaningFeeCurrency, @Amenities, @LastBookedOn);
                                """;
 
+            const string apartmentImageSql = """
+                                             INSERT INTO public.apartment_image
+                                             (id,apartment_id,file_content,main_photo)
+                                             VALUES(@ImageId, @ApartmentId, @FileContent, @MainPhoto );
+                                             """;
+
             connection.Execute(sql, apartments);
+            connection.Execute(apartmentImageSql, apartmentPhotos );
         }
     }
 }

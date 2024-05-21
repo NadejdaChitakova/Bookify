@@ -1,3 +1,3 @@
 ﻿namespace Bookify.Domain.AttachedFiles;
 
-public sealed record FileContent(byte[] Value);
+public sealed record FileContent(string Value);
