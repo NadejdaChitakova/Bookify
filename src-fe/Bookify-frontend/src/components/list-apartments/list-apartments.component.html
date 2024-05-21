@@ -1,1 +1,3 @@
-<p>list-apartments works!</p>
+@for (item of apartments.value; track $index) {
+  <apartment [apartment]="item"></apartment>
+}

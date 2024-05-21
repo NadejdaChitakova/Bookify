@@ -1,20 +1,20 @@
 import { Injectable } from '@angular/core';
-import { AppService } from './app.service';
-import { Observable } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
+import { Observable, throwError } from 'rxjs';
+import { catchError, map } from 'rxjs/operators';
+import { Apartment } from '../types/apartment';
 import { Apartments } from '../types/apartments';
-import { PaginationParams } from '../types/pagination-params';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ApartmentService {
 
-  constructor(private appService: AppService) { }
+  constructor(private http: HttpClient) { }
 
-  getApartments = (url: string, params: PaginationParams) : Observable<Apartments> => {
-    return this.appService.get(url, {
-      params,
-      responseType: 'json'
-    })
+  getApartments() :Observable<Apartments> {
+    const url = "http://localhost:5000/api/Apartments/GetApartments";
+
+     return this.http.get<Apartments>(url);
   }
 }

@@ -13,7 +13,7 @@ namespace Bookify.Api.Controllers.User
     public class UserController(ISender sender) : ControllerBase
     {
         [AllowAnonymous]
-        [HttpPost(nameof(Request))]
+        [HttpPost(nameof(Register))]
         public async Task<IActionResult> Register(
             RegisterUserRequest request,
             CancellationToken cancellationToken)
@@ -30,7 +30,6 @@ namespace Bookify.Api.Controllers.User
         }
 
         [HttpGet(nameof(GetLoggedInUser))]
-        [HasPermission(Permission.UsersRead)]
         public async Task<IActionResult> GetLoggedInUser(CancellationToken cancellationToken)
         {
             var query = new GetLoggedInUserQuery();
@@ -45,7 +44,7 @@ namespace Bookify.Api.Controllers.User
             LogInUserRequest request,
         CancellationToken cancellationToken)
         {
-            var command = new LoginUserCommand(request.Email, request.Password);
+            var command = new LogInUserCommand(request.Email, request.Password);
 
             var result = await sender.Send(command, cancellationToken);
 

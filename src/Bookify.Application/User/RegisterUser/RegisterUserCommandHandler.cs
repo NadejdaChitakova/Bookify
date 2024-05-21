@@ -5,22 +5,12 @@ using Bookify.Domain.Users;
 
 namespace Bookify.Application.User.RegisterUser
 {
-    internal sealed class RegisterUserCommandHandler : ICommandHandler<RegisterUserCommand, Guid>
+    internal sealed class RegisterUserCommandHandler(
+        IAuthenticationService authenticationService,
+        IUserRepository userReposity,
+        IUnitOfWork unitOfWork)
+        : ICommandHandler<RegisterUserCommand, Guid>
     {
-        private readonly IAuthenticationService _authenticationService;
-        private readonly IUserRepository _userRepository;
-        private readonly IUnitOfWork _unitOfWork;
-
-        public RegisterUserCommandHandler(
-            IAuthenticationService authenticationService,
-            IUserRepository userReposity,
-            IUnitOfWork unitOfWork)
-        {
-            _authenticationService = authenticationService;
-            _userRepository = userReposity;
-            _unitOfWork = unitOfWork;
-        }
-
         public async Task<Result<Guid>> Handle(
             RegisterUserCommand request,
             CancellationToken cancellationToken)
@@ -30,16 +20,16 @@ namespace Bookify.Application.User.RegisterUser
                                                 new LastName(request.LastName),
                                                 new Email(request.Email));
 
-            var identityId = await _authenticationService.RegisterAsync(
+            var identityId = await authenticationService.RegisterAsync(
                                                                         user,
                                                                         request.Password,
                                                                         cancellationToken);
 
             user.SetIdentityId(identityId);
 
-_userRepository.Add(user);
+userReposity.Add(user);
 
-await _unitOfWork.SaveChangesAsync(cancellationToken);
+await unitOfWork.SaveChangesAsync(cancellationToken);
 
 return user.Id;
         }

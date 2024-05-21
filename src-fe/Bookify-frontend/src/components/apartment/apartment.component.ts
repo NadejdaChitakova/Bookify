@@ -1,8 +1,7 @@
 import { CardModule } from 'primeng/card';
 import { ButtonModule } from 'primeng/button';
 import { Component, Input, OnInit } from '@angular/core';
-import { Apartment } from '../types/apartment';
-
+import { Apartment } from '../../types/apartment';
 @Component({
   selector: 'apartment',
   standalone: true,

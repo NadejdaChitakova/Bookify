@@ -6,14 +6,20 @@ using Microsoft.IdentityModel.JsonWebTokens;
 
 namespace Bookify.Infrastructure.Authorization
 {
-    internal sealed class CustomClaimsTransformation(IServiceProvider serviceProvider) : IClaimsTransformation
+    internal sealed class CustomClaimsTransformation : IClaimsTransformation
     {
-        private readonly IServiceProvider _serviceProvider = serviceProvider;
+        private readonly IServiceProvider _serviceProvider;
+
+        public CustomClaimsTransformation(IServiceProvider serviceProvider)
+        {
+            _serviceProvider = serviceProvider;
+        }
 
         public async Task<ClaimsPrincipal> TransformAsync(ClaimsPrincipal principal)
         {
-            if (principal.HasClaim(claim => claim.Type == ClaimTypes.Role)
-                && principal.HasClaim(claim => claim.Type == JwtRegisteredClaimNames.Sub))
+            if (principal.Identity is not { IsAuthenticated: true } ||
+                principal.HasClaim(claim => claim.Type == ClaimTypes.Role) &&
+                principal.HasClaim(claim => claim.Type == JwtRegisteredClaimNames.Sub))
             {
                 return principal;
             }

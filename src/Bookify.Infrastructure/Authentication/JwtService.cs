@@ -6,17 +6,25 @@ using Microsoft.Extensions.Options;
 
 namespace Bookify.Infrastructure.Authentication
 {
-    internal class JwtService(HttpClient httpClient, IOptions<KeycloakOptions> keycloakOptions)
-        : IJwtService
+    internal sealed class JwtService : IJwtService
     {
         private static readonly Error AuthenticationFailed = new(
                                                                  "Keycloak.AuthenticationFailed",
                                                                  "Failed to acquire access token do to authentication failure");
 
-        private readonly HttpClient _httpClient = httpClient;
-        private readonly KeycloakOptions _keycloakOptions = keycloakOptions.Value;
+        private readonly HttpClient _httpClient;
+        private readonly KeycloakOptions _keycloakOptions;
 
-         public async Task<Result<string>> GetAccessToken(string email, string password, CancellationToken cancellationToken)
+        public JwtService(HttpClient httpClient, IOptions<KeycloakOptions> keycloakOptions)
+        {
+            _httpClient = httpClient;
+            _keycloakOptions = keycloakOptions.Value;
+        }
+
+        public async Task<Result<string>> GetAccessToken(
+            string email,
+            string password,
+            CancellationToken cancellationToken = default)
         {
             try
             {
@@ -36,7 +44,7 @@ namespace Bookify.Infrastructure.Authentication
 
                 response.EnsureSuccessStatusCode();
 
-                var authorizationToken = await response.Content.ReadFromJsonAsync<AuthorizationToken>();
+                var authorizationToken = await response.Content.ReadFromJsonAsync<AuthorizationToken>(cancellationToken);
 
                 if (authorizationToken is null)
                 {
@@ -49,7 +57,6 @@ namespace Bookify.Infrastructure.Authentication
             {
                 return Result.Failure<string>(AuthenticationFailed);
             }
-
         }
     }
 }

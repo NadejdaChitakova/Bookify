@@ -26,7 +26,7 @@ namespace Bookify.Infrastructure.Authentication
             };
 
             var response = await httpClient.PostAsJsonAsync(
-                                                             "user",
+                                                             "users",
                                                              userRepresentationModel,
                                                              cancellationToken);
 

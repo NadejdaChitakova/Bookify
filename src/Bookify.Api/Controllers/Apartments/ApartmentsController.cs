@@ -1,19 +1,23 @@
 ﻿using Bookify.Application.Apartments.GetApartments;
 using Bookify.Application.Apartments.Searchapartments;
+using Bookify.Infrastructure.Authorization;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Bookify.Api.Controllers.Apartments
 {
-    [Authorize]
+    //[Authorize]
     [ApiController]
     [Route("api/Apartments")]
+    [EnableCors]
     public class ApartmentsController(ISender sender) : ControllerBase
     {
         private readonly ISender _sender = sender;
 
         [HttpGet(nameof(GetApartments))]
+        //[HasPermission(Permission.UsersRead)]
         public async Task<IActionResult> GetApartments(
             CancellationToken cancellationToken)
         {

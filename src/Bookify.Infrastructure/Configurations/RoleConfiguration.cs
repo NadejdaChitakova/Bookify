@@ -10,12 +10,11 @@ namespace Bookify.Infrastructure.Configurations
         {
             builder.ToTable("roles");
 
-            builder.HasKey(x => x.Id);
+            builder.HasKey(role => role.Id);
 
-            builder.Property(x => x.Name);
-
-            builder.HasMany(x => x.Users)
-                .WithMany(x => x.Roles);
+            builder.HasMany(role => role.Permissions)
+                .WithMany()
+                .UsingEntity<RolePermission>();
 
             builder.HasData(Role.Registered);
         }

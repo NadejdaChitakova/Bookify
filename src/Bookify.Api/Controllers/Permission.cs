@@ -2,6 +2,6 @@
 {
     public static class Permission
     {
-        public const string UsersRead = "users:read";
+        public const string UsersRead = "user:read";
     }
 }

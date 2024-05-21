@@ -3,11 +3,21 @@ using Bookify.Application;
 using Bookify.Infrastructure;
 
 var builder = WebApplication.CreateBuilder(args);
+var myAllowSpecificOrigins = "_myAllowSpecificOrigins";
 
 builder.Services.AddControllers();
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy(name: myAllowSpecificOrigins,
+                      policy =>
+                      {
+                          policy.AllowAnyOrigin();
+                      });
+});
 
 builder.Services.AddApplication();
 builder.Services.AddInfrastructure(builder.Configuration);
@@ -23,7 +33,9 @@ if (app.Environment.IsDevelopment())
     app.SeedData();
 }
 
-app.UseHttpsRedirection();
+app.UseCors(myAllowSpecificOrigins);
+
+//app.UseHttpsRedirection();
 
 app.UseCustomMiddleware();
 

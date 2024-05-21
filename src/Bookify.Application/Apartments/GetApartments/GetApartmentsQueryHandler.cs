@@ -12,14 +12,13 @@ namespace Bookify.Application.Apartments.GetApartments
             using var connection = connectionFactory.CreateConnection();
             const string sql = """
                                 SELECT
-                                    a.id AS Id,
-                                    a.name AS Name,
-                                    a.description AS Description,
-                                    a.price_amount AS Price,
-                                    a.price_currency AS Currency,
-                                    a.address_country AS Country,
-                                    a.address_city AS City,
-                                    a.address_street AS Street
+                                    id AS Id,
+                                    name AS Name,
+                                    description AS Description,
+                                    price_amount AS Price,
+                                    price_currency AS Currency,
+                                    address_country AS Country,
+                                    address_city AS City
                                 FROM apartments
                                 """;
 
