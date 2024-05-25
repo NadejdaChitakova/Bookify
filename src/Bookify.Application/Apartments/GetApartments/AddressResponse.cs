@@ -4,6 +4,6 @@
     {
         public string Country { get; init; }
 
-        public string Sity { get; init; }
+        public string City { get; init; }
     }
 }
