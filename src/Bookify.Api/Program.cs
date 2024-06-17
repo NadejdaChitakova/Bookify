@@ -1,8 +1,12 @@
 using Bookify.Api.Extensions;
 using Bookify.Application;
 using Bookify.Infrastructure;
+using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
+builder.Host.UseSerilog((context, configuration) => 
+                            configuration.ReadFrom.Configuration(context.Configuration));
+
 var myAllowSpecificOrigins = "_myAllowSpecificOrigins";
 
 builder.Services.AddControllers();
@@ -33,9 +37,11 @@ if (app.Environment.IsDevelopment())
     app.SeedData();
 }
 
-app.UseCors(myAllowSpecificOrigins);
+app.UseRequestContextLogging();
 
-//app.UseHttpsRedirection();
+app.UseSerilogRequestLogging();
+
+app.UseCors(myAllowSpecificOrigins);
 
 app.UseCustomMiddleware();
 
