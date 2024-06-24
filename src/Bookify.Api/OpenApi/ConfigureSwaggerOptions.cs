@@ -36,7 +36,8 @@ namespace Bookify.Api.OpenApi
                 openApiInfo.Description += "This API version has been deprecated.";
             }
 
-            return openApiInfo;\
+            return openApiInfo;
+
         }
     }
 }
