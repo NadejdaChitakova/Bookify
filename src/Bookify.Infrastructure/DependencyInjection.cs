@@ -1,4 +1,5 @@
-﻿using Bookify.Application.Abstractions.Authentication;
+﻿using Asp.Versioning;
+using Bookify.Application.Abstractions.Authentication;
 using Bookify.Application.Abstractions.Clock;
 using Bookify.Application.Abstractions.Data;
 using Bookify.Application.Abstractions.Messaging;
@@ -19,6 +20,7 @@ using Dapper;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -46,6 +48,10 @@ namespace Bookify.Infrastructure
             AddAuthorization(services);
 
             AddCaching(services, configuration);
+
+            AddHealthChecks(services, configuration);
+
+            AddApiVersioning(services);
 
             return services;
         }
@@ -130,6 +136,30 @@ namespace Bookify.Infrastructure
             services.AddStackExchangeRedisCache(options => options.Configuration = connectionString);
 
             services.AddSingleton<ICacheService, CacheService>();
+        }
+
+        private static void AddHealthChecks(IServiceCollection services, IConfiguration configuration)
+        {
+            services.AddHealthChecks()
+                .AddNpgSql(configuration.GetConnectionString("Database")!)
+                .AddRedis(configuration.GetConnectionString("Cache")!)
+                .AddUrlGroup(new Uri(configuration["Keycloak:BaseUrl"]!), HttpMethod.Get, "keycloak");
+        }
+
+        private static void AddApiVersioning(IServiceCollection services)
+        {
+            services.AddApiVersioning(options =>
+                {
+                    options.DefaultApiVersion = new ApiVersion(1);
+                    options.ReportApiVersions = true;
+                    options.ApiVersionReader = new UrlSegmentApiVersionReader();
+                })
+                .AddMvc()
+                .AddApiExplorer(options =>
+                {
+                    options.GroupNameFormat = "'v'V";
+                    options.SubstituteApiVersionInUrl = true;
+                });
         }
     }
 }
